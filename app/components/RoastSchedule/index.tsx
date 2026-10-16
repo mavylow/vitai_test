@@ -1,5 +1,6 @@
 "use client";
 
+import "./style.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -12,7 +13,6 @@ const DELIVERY_END_HOUR = 20;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Ближайшее будущее вхождение «день недели + час» в «минском» времени. */
 function nextOccurrence(minskNow: Date, weekday: number, hour: number): Date {
   const daysAhead = (weekday - minskNow.getUTCDay() + 7) % 7;
   const target = new Date(
@@ -78,28 +78,39 @@ export default function RoastSchedule() {
 
   return (
     <>
-      <div className="brown-layout">
-        <Image src="/alarm.svg" width={32} height={32} alt="" />
-        <h3>Обжариваем кофе по четвергам</h3>
-        <p>Доставляем по пятницам</p>
-        <p>До обжарки осталось</p>
-        {countdown ? (
-          <time dateTime={countdown.iso}>
-            {countdown.days > 0 && `${countdown.days} дн. `}
-            {countdown.text}
-          </time>
-        ) : (
-          <span aria-hidden="true">-- : -- : --</span>
-        )}
+      <div className="brown-layout timer">
+        <div className="container">
+          <Image src="/alarm.svg" width={32} height={32} alt="" />
+          <div>
+            <h3>Обжариваем кофе по четвергам</h3>
+            <p>Доставляем по пятницам</p>
+          </div>
+        </div>
+        <div className="container">
+          <p>До обжарки осталось</p>
+          {countdown ? (
+            <time className="timer-value" dateTime={countdown.iso}>
+              {countdown.days > 0 && `${countdown.days} дн. `}
+              {countdown.text}
+            </time>
+          ) : (
+            <span className="timer-value" aria-hidden="true">
+              -- : -- : --
+            </span>
+          )}
+        </div>
       </div>
 
-      <div className="brown-layout">
-        <h3>Ближайшая доставка по Минску</h3>
-        {deliveryIso && deliveryText ? (
-          <time dateTime={deliveryIso}>{deliveryText}</time>
-        ) : (
-          <span>по пятницам</span>
-        )}
+      <div className="brown-layout date">
+        <Image src="/truck.svg" width={32} height={32} alt="" />
+        <div className="container">
+          <h3>Ближайшая доставка по Минску</h3>
+          {deliveryIso && deliveryText ? (
+            <time dateTime={deliveryIso}>{deliveryText}</time>
+          ) : (
+            <span>по пятницам</span>
+          )}
+        </div>
       </div>
     </>
   );

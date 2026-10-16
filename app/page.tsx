@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
 import Image from "next/image";
-import RoastSchedule from "./RoastSchedule";
+import RoastSchedule from "./components/RoastSchedule";
+import Header from "./components/Header";
+import ButtonLink from "./components/Button";
 
 type Product = {
   id: string;
@@ -54,53 +55,30 @@ const products: Product[] = [
 export default function Home() {
   return (
     <>
-      <header>
-        <a href="#" aria-label="Кварта — в начало страницы">
-          {/* Название рядом с логотипом, поэтому у картинки пустой alt */}
-          <Image src="/logo.svg" width={50} height={50} alt="" />
-          <span>kvarta</span>
-        </a>
-        <nav aria-label="Основная навигация">
-          <ul>
-            <li>
-              <a href="#coffee">Кофе</a>
-            </li>
-            <li>
-              <a href="#subscription">Подписка</a>
-            </li>
-            <li>
-              <a href="#delivery">Доставка</a>
-            </li>
-            <li>
-              <a href="#about-us">О нас</a>
-            </li>
-            <li>
-              <a href="#contacts">Контакты</a>
-            </li>
-          </ul>
-        </nav>
-        <a className="button" href="#order">
-          Оставить заявку
-        </a>
-      </header>
-
+      <Header />
       <main>
-        {/* 1. Первый экран */}
-        <section aria-labelledby="hero-title">
-          <h1 id="hero-title">
-            Обжарили в четверг.
-            <br />
-            Привезли в пятницу.
-          </h1>
-          <p>Маленькая минская мастерская «Кварта»</p>
-          <a className="button" href="#order">
-            Оформить подписку
-          </a>
-          <a href="#order">Заказать один раз</a>
+        <section id="hero" aria-labelledby="hero-title">
+          <Image
+            src="/main_background.png"
+            alt=""
+            fill
+            priority
+            className="background-image"
+          />
+          <div className="hero-text-container">
+            <h1 id="hero-title">
+              Обжарили в четверг.
+              <br />
+              Привезли в пятницу.
+            </h1>
+            <p>маленькая минская мастерская «Кварта»</p>
+            <ButtonLink text="Оформить заказ" href={"#order"} />
+          </div>
+
+          <div id="hero-end" className="hero-end" aria-hidden="true" />
         </section>
 
-        {/* 2. Почему свежесть важна */}
-        <section aria-labelledby="freshness-title">
+        <section id="freshness" aria-labelledby="freshness-title">
           <div className="brown-layout">
             <h2 id="freshness-title">Кофе, как хлеб, лучше свежим</h2>
             <p>
@@ -113,7 +91,6 @@ export default function Home() {
           <RoastSchedule />
         </section>
 
-        {/* 3. Ассортимент */}
         <section id="coffee" aria-labelledby="coffee-title">
           <h2 id="coffee-title">Наш кофе</h2>
           <p>
@@ -140,7 +117,6 @@ export default function Home() {
           </ul>
         </section>
 
-        {/* 4. Подписка */}
         <section id="subscription" aria-labelledby="subscription-title">
           <h2 id="subscription-title">Подписка: свежий кофе каждый месяц</h2>
           <p>2 пачки по 250 г раз в месяц, доставка бесплатно.</p>
@@ -161,16 +137,6 @@ export default function Home() {
           </a>
         </section>
 
-        {/* 5. Как это работает */}
-        <section id="how-it-works" aria-labelledby="how-title">
-          <h2 id="how-title">Как это работает</h2>
-          <ol>
-            <li>Оставляете заявку, это занимает минуту.</li>
-            <li>Менеджер перезванивает, уточняет вкус и адрес.</li>
-            <li>В четверг мы обжариваем, в пятницу привозим.</li>
-          </ol>
-        </section>
-
         {/* 6. О нас */}
         <section id="about-us" aria-labelledby="about-title">
           <Image
@@ -187,7 +153,6 @@ export default function Home() {
           </p>
         </section>
 
-        {/* 7. Доставка и самовывоз */}
         <section id="delivery" aria-labelledby="delivery-title">
           <h2 id="delivery-title">Доставка и самовывоз</h2>
 
@@ -196,8 +161,6 @@ export default function Home() {
             <ul>
               <li>Развозим по пятницам</li>
               <li>При заказе от 50 BYN доставка бесплатная</li>
-              {/* TODO: уточнить стоимость доставки при заказе до 50 BYN
-                  и до какого времени нужно заказать, чтобы успеть в пятницу */}
             </ul>
           </div>
 
@@ -208,16 +171,19 @@ export default function Home() {
               <li>Пн–пт: 8:00–20:00</li>
               <li>Сб–вс: 10:00–18:00</li>
             </ul>
-            {/* TODO: карта и фото входа */}
+            <iframe
+              src="https://yandex.ru/map-widget/v1/?um=constructor%3Aa3e2fc0e28e85d00062bf52e586ded268ad6b309192ba389d94dfc3c6285f864&amp;source=constructor"
+              width="500"
+              height="300"
+              frameBorder="0"
+            ></iframe>
           </div>
         </section>
 
-        {/* 8. Форма заявки */}
         <section id="order" aria-labelledby="order-title">
           <h2 id="order-title">Оставьте заявку</h2>
           <p>Мы перезвоним и всё оформим.</p>
 
-          {/* TODO: реализовать обработчик /api/lead (письмо, Telegram или таблица) */}
           <form action="/api/lead" method="post">
             <div>
               <label htmlFor="name">Имя</label>
@@ -320,11 +286,9 @@ export default function Home() {
         </section>
       </main>
 
-      {/* 9. Контакты */}
       <footer id="contacts">
         <h2>Контакты</h2>
         <address>
-          {/* TODO: подставить настоящий телефон и аккаунт Instagram */}
           <p>
             <a href="tel:+375000000000">+375 (00) 000-00-00</a>
           </p>

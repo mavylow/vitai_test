@@ -1,0 +1,10 @@
+.button {
+  display: flex;
+  appearance: none;
+  text-decoration: none;
+  border-radius: 0.8em;
+  color: var(--beige);
+  background-color: var(--mint);
+  width: fit-content;
+  padding: 0.5em 1em;
+}

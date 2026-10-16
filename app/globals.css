@@ -1,12 +1,107 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brown: rgba(66, 43, 33, 1);
+  --light-brown: rgba(66, 43, 33, 0.8);
+  --beige: rgba(242, 236, 228, 1);
+  --light-beige: rgba(242, 236, 228, 0.8);
+  --mint: rgba(156, 170, 181, 1);
+  --light-mint: rgba(156, 170, 181, 0.8);
+
+  --header-height: 60px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  font-family: var(--font-roboto), Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+p,
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+section {
+  padding: 0 3em;
+  margin-bottom: 4rem;
+}
+
+#hero {
+  position: relative;
+  min-height: 100svh;
+  padding-top: 60px;
+  overflow: hidden;
+  color: var(--beige);
+  font-size: min(32px, 4vw);
+  padding-top: 60px;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+h1 {
+  font-size: min(52px, 9vw);
+  line-height: 113%;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  font-size: min(24px, 5vw);
+}
+
+h3 {
+  font-size: min(18px, 4vw);
+}
+
+.hero-text-container {
+  margin-top: 5em;
+}
+
+.hero-text-container .button {
+  margin-top: 12em;
+}
+
+.hero-text-container p {
+  margin-top: 1em;
+}
+
+#hero-end {
+  position: absolute;
+  bottom: 0;
+}
+
+iframe {
+  width: min(500px, 100vw);
+}
+
+@media (max-width: 767px) {
+  #hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-text-container {
+    margin: 0;
+  }
+  #freshness {
+    grid-template-columns: 1fr;
+    gap: 1em;
+    align-items: stretch;
+  }
+
+  #freshness > :first-child {
+    grid-row: 1 / span 2;
+    height: auto;
+  }
 }
