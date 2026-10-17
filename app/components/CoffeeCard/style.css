@@ -1,0 +1,73 @@
+.coffee-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--light-beige);
+  border-radius: 1.5em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: white;
+  color: var(--brown);
+  box-shadow: 0 10px 30px var(--beige);
+}
+
+.coffee-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  border-radius: 1em;
+}
+
+.coffee-card h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.coffee-card-description {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--light-brown);
+}
+
+.coffee-name-price,
+.coffee-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+.coffee-card-meta p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--light-brown);
+}
+
+.coffee-card-meta .coffee-card-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--brown);
+}
+
+@media (hover: hover) {
+  .coffee-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(66, 43, 33, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coffee-card,
+  .coffee-card-button {
+    transition: none;
+  }
+  .coffee-card:hover {
+    transform: none;
+  }
+}

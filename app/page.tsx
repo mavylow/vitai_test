@@ -2,55 +2,9 @@ import Image from "next/image";
 import RoastSchedule from "./components/RoastSchedule";
 import Header from "./components/Header";
 import ButtonLink from "./components/Button";
-
-type Product = {
-  id: string;
-  name: string;
-  description: string;
-  volume: string;
-  price: number;
-  image: string;
-  imageAlt: string;
-};
-
-const products: Product[] = [
-  {
-    id: "irgacheffe",
-    name: "Эфиопия Иргачеффе",
-    description: "цветочный, бергамот, светлая обжарка",
-    volume: "250 г",
-    price: 32,
-    image: "/coffee_pack1.jpg",
-    imageAlt: "Пачка кофе Эфиопия Иргачеффе",
-  },
-  {
-    id: "huila",
-    name: "Колумбия Уила",
-    description: "карамель, красное яблоко",
-    volume: "250 г",
-    price: 29,
-    image: "/coffee_pack2.jpg",
-    imageAlt: "Пачка кофе Колумбия Уила",
-  },
-  {
-    id: "cerrado",
-    name: "Бразилия Серрадо",
-    description: "орех, шоколад, под эспрессо",
-    volume: "250 г",
-    price: 26,
-    image: "/coffee_pack3.jpg",
-    imageAlt: "Пачка кофе Бразилия Серрадо",
-  },
-  {
-    id: "drip",
-    name: "Дрип-пакеты, ассорти",
-    description: "кофе, который заваривается прямо в чашке",
-    volume: "10 штук",
-    price: 18,
-    image: "/drip.jpg",
-    imageAlt: "Ассорти дрип-пакетов",
-  },
-];
+import { products } from "./utils/const";
+import CoffeeCard from "./components/CoffeeCard";
+import Form from "./components/Form";
 
 export default function Home() {
   return (
@@ -96,23 +50,9 @@ export default function Home() {
           <p>
             Не знаете, что выбрать? Оставьте заявку, менеджер поможет подобрать.
           </p>
-          <ul>
+          <ul className="coffee-list">
             {products.map((product) => (
-              <li className="coffee-card" key={product.id}>
-                <Image
-                  src={product.image}
-                  width={250}
-                  height={250}
-                  alt={product.imageAlt}
-                />
-                <h3>{product.name}</h3>
-                <p>{product.description}</p>
-                <p>{product.volume}</p>
-                <p>{product.price} BYN</p>
-                <a href="#order" aria-label={`Заказать: ${product.name}`}>
-                  Заказать
-                </a>
-              </li>
+              <CoffeeCard key={product.id} {...product} />
             ))}
           </ul>
         </section>
@@ -137,7 +77,6 @@ export default function Home() {
           </a>
         </section>
 
-        {/* 6. О нас */}
         <section id="about-us" aria-labelledby="about-title">
           <Image
             src="/couple.jpg"
@@ -184,105 +123,7 @@ export default function Home() {
           <h2 id="order-title">Оставьте заявку</h2>
           <p>Мы перезвоним и всё оформим.</p>
 
-          <form action="/api/lead" method="post">
-            <div>
-              <label htmlFor="name">Имя</label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="phone">Телефон</label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                inputMode="tel"
-                autoComplete="tel"
-                placeholder="+375 29 123-45-67"
-                required
-              />
-            </div>
-
-            <fieldset>
-              <legend>Что хотите оформить</legend>
-              <label>
-                <input
-                  type="radio"
-                  name="requestType"
-                  value="subscription"
-                  defaultChecked
-                />
-                Подписку
-              </label>
-              <label>
-                <input type="radio" name="requestType" value="one-time" />
-                Разовый заказ
-              </label>
-            </fieldset>
-
-            <fieldset>
-              <legend>Какой кофе</legend>
-              {products.map((product) => (
-                <label key={product.id}>
-                  <input type="checkbox" name="products" value={product.id} />
-                  {product.name}
-                </label>
-              ))}
-              <label>
-                <input type="checkbox" name="products" value="help" />
-                Не знаю, помогите выбрать
-              </label>
-            </fieldset>
-
-            <fieldset>
-              <legend>Как получить</legend>
-              <label>
-                <input
-                  type="radio"
-                  name="receiving"
-                  value="delivery"
-                  defaultChecked
-                />
-                Доставка по Минску
-              </label>
-              <label>
-                <input type="radio" name="receiving" value="pickup" />
-                Самовывоз
-              </label>
-            </fieldset>
-
-            <div>
-              <label htmlFor="address">Адрес доставки</label>
-              <input
-                id="address"
-                name="address"
-                type="text"
-                autoComplete="street-address"
-                aria-describedby="address-hint"
-              />
-              <p id="address-hint">Нужен только для доставки.</p>
-            </div>
-
-            <div>
-              <label htmlFor="comment">Комментарий</label>
-              <textarea id="comment" name="comment" rows={3} />
-            </div>
-
-            <label>
-              <input type="checkbox" name="consent" required />
-              Согласен на обработку персональных данных (
-              <a href="/privacy">политика конфиденциальности</a>)
-            </label>
-
-            <button type="submit">Отправить заявку</button>
-            <p>Менеджер перезвонит в рабочее время.</p>
-          </form>
+          <Form />
         </section>
       </main>
 
