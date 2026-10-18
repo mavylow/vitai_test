@@ -1,0 +1,18 @@
+#freshness {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  align-items: stretch;
+}
+
+#freshness > :first-child {
+  grid-row: 1 / span 2;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  #freshness {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+}

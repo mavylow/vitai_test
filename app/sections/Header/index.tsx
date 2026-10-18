@@ -3,7 +3,7 @@
 import "./style.css";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import ButtonLink from "../Button";
+import ButtonLink from "../../components/Button";
 
 const links = [
   { href: "#coffee", label: "Кофе" },
