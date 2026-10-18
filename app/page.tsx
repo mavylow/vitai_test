@@ -8,6 +8,7 @@ import Coffee from "@sections/Coffee";
 import Subscription from "@sections/Subscription";
 import Delivery from "@sections/Delivery";
 import Order from "@sections/Order";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -16,7 +17,10 @@ export default function Home() {
       <main>
         <MainScreen />
         <Freshness />
-        <Coffee />
+        <Suspense fallback={<div>Загрузка формы…</div>}>
+          <Coffee />
+        </Suspense>
+
         <Subscription />
         <AboutSection />
         <Delivery />
