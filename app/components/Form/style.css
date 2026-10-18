@@ -217,3 +217,37 @@
     transition: none;
   }
 }
+
+#order .field-error {
+  margin: 0;
+  font-size: 0.85rem;
+  text-align: left;
+  color: #f2b8a8;
+}
+
+#order fieldset .field-error {
+  flex-basis: 100%;
+}
+
+#order [aria-invalid="true"] {
+  border-color: #e5735c;
+}
+
+#order .form-status {
+  font-size: 1rem;
+  text-align: center;
+  color: var(--beige);
+}
+
+#order button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+#order .visually-hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

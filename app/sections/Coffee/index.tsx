@@ -1,8 +1,10 @@
-import { products } from "@utils/const";
 import CoffeeCard from "@components/CoffeeCard";
+import { getProducts } from "@utils/api";
 import "./style.css";
 
-function Coffee() {
+async function Coffee() {
+  const products = await getProducts();
+
   return (
     <section id="coffee" aria-labelledby="coffee-title">
       <h2 id="coffee-title">Наш кофе</h2>
