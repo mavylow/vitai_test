@@ -1,21 +1,34 @@
-#order h2,
 #order > p {
   text-align: center;
 }
 
 #order form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 2rem;
-  max-width: 1000px;
+  padding: 4rem clamp(2rem, 8vw, 6rem);
   border-radius: 2em;
   background-color: var(--brown);
   color: var(--beige);
 }
+
+#order form > * {
+  break-inside: avoid;
+  margin: 0 0 1.25rem;
+}
+
 @media (max-width: 745px) {
   #order {
     padding: 0;
+  }
+}
+
+@media (min-width: 1078px) {
+  #order form {
+    column-count: 2;
+    column-gap: 3rem;
+  }
+
+  #order button[type="submit"],
+  #order form > p {
+    column-span: all;
   }
 }
 
@@ -30,6 +43,10 @@
   padding: 0;
   font-size: 0.95rem;
   font-weight: 500;
+}
+
+#order legend {
+  margin-bottom: 0.5rem;
 }
 
 #order input[type="text"],
@@ -88,13 +105,8 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   min-width: 0;
-  margin: 0;
   padding: 0;
   border: 0;
-}
-
-#order legend {
-  margin-bottom: 0.5rem;
 }
 
 #order fieldset label {
@@ -136,7 +148,6 @@
   outline-offset: 2px;
 }
 
-/* Согласие на обработку данных */
 #order form > label {
   display: flex;
   align-items: flex-start;
@@ -159,9 +170,11 @@
   text-underline-offset: 3px;
 }
 
-/* Кнопка отправки */
 #order button[type="submit"] {
+  display: block;
+  width: 100%;
   min-height: 52px;
+  margin: 1.5rem 0 0.75rem;
   border: 0;
   border-radius: 2em;
   background-color: var(--beige);
@@ -171,6 +184,11 @@
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.consent,
+.consent input {
+  cursor: pointer;
 }
 
 #order button[type="submit"]:hover {

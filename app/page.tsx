@@ -6,6 +6,7 @@ import { products } from "./utils/const";
 import CoffeeCard from "./components/CoffeeCard";
 import Form from "./components/Form";
 import Footer from "./components/Footer";
+import AboutSection from "./components/AboutSection";
 
 export default function Home() {
   return (
@@ -68,54 +69,40 @@ export default function Home() {
             Для тех, кто пьёт кофе дома или в офисе каждый день и не хочет
             следить, когда он закончится.
           </p>
-          <ul>
-            <li>Свежая обжарка</li>
-            <li>Доставка в пятницу</li>
-            <li>Возможность выбрать сорта</li>
-          </ul>
+
           <a className="button" href="#order">
             Оформить подписку
           </a>
         </section>
 
-        <section id="about-us" aria-labelledby="about-title">
-          <Image
-            src="/couple.jpg"
-            width={250}
-            height={250}
-            alt="Аня и Дмитрий, основатели обжарки «Кварта»"
-          />
-          <h2 id="about-title">О нас</h2>
-          <p>
-            Мы — Аня и Дмитрий. Раньше работали бариста, а с 2019 года
-            обжариваем кофе сами. Партии у нас маленькие, по 5 кг: жарим в
-            четверг, а в пятницу развозим по Минску.
-          </p>
-        </section>
+        <AboutSection />
 
         <section id="delivery" aria-labelledby="delivery-title">
           <h2 id="delivery-title">Доставка и самовывоз</h2>
 
           <div>
-            <h3>Доставка по Минску</h3>
-            <ul>
-              <li>Развозим по пятницам</li>
-              <li>При заказе от 50 BYN доставка бесплатная</li>
-            </ul>
+            <div>
+              <h3>Доставка по Минску</h3>
+              <ul>
+                <li>Развозим по пятницам</li>
+                <li>При заказе от 50 BYN доставка бесплатная</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Самовывоз</h3>
+              <p>Минск, ул. Короля, 9</p>
+              <ul>
+                <li>Пн–пт: 8:00–20:00</li>
+                <li>Сб–вс: 10:00–18:00</li>
+              </ul>
+            </div>
           </div>
 
           <div>
-            <h3>Самовывоз</h3>
-            <p>Минск, ул. Короля, 9</p>
-            <ul>
-              <li>Пн–пт: 8:00–20:00</li>
-              <li>Сб–вс: 10:00–18:00</li>
-            </ul>
             <iframe
+              title="Карта: мастерская «Кварта», Минск, ул. Короля, 9"
               src="https://yandex.ru/map-widget/v1/?um=constructor%3Aa3e2fc0e28e85d00062bf52e586ded268ad6b309192ba389d94dfc3c6285f864&amp;source=constructor"
-              width="500"
-              height="300"
-              frameBorder="0"
+              loading="lazy"
             ></iframe>
           </div>
         </section>

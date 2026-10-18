@@ -1,7 +1,5 @@
 .button {
   display: flex;
-  appearance: none;
-  text-decoration: none;
   border-radius: 0.8em;
   color: var(--brown);
   background-color: var(--mint);

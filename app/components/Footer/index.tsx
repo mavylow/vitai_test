@@ -1,25 +1,60 @@
 import "./style.css";
+import Image from "next/image";
 
 function Footer() {
   return (
     <footer id="contacts">
       <h2>Контакты</h2>
-      <address>
+      <div>
+        <address>
+          <p>
+            <Image
+              src={"/phone.svg"}
+              width={24}
+              height={24}
+              alt="icon of clock"
+            />
+            <a href="tel:+375000000000">+375 (00) 000-00-00</a>
+          </p>
+          <p>
+            <Image
+              src={"/instagram.svg"}
+              width={24}
+              height={24}
+              alt="icon of clock"
+            />
+            <a
+              href="https://instagram.com/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Instagram
+            </a>
+          </p>
+          <p>
+            <Image
+              src={"/address.svg"}
+              width={24}
+              height={24}
+              alt="icon of clock"
+            />
+            <span>Минск, ул. Короля, 9</span>
+          </p>
+        </address>
         <p>
-          <a href="tel:+375000000000">+375 (00) 000-00-00</a>
+          <Image
+            src={"/clock.svg"}
+            width={24}
+            height={24}
+            alt="icon of clock"
+          />
+          <span>Пн–пт 8:00–20:00, сб–вс 10:00–18:00</span>
         </p>
-        <p>
-          <a href="https://instagram.com/" rel="noopener noreferrer">
-            Instagram
-          </a>
-        </p>
-        <p>Минск, ул. Короля, 9</p>
-      </address>
-      <p>Пн–пт 8:00–20:00, сб–вс 10:00–18:00</p>
-      <p>
-        <a href="/privacy">Политика конфиденциальности</a>
+      </div>
+      <p className="privacy">
+        <a href="/privacy">Политика конфиденциальности </a>
+        <span>© {new Date().getFullYear()} Обжарка «Кварта»</span>
       </p>
-      <p>© {new Date().getFullYear()} Обжарка «Кварта»</p>
     </footer>
   );
 }

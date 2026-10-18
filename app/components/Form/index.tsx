@@ -87,10 +87,12 @@ function Form() {
         <textarea id="comment" name="comment" rows={3} />
       </div>
 
-      <label>
+      <label className="consent">
         <input type="checkbox" name="consent" required />
-        Согласен на обработку персональных данных (
-        <a href="/privacy">политика конфиденциальности</a>)
+        <span>
+          Согласен на обработку персональных данных (
+          <a href="/privacy">политика конфиденциальности</a>)
+        </span>
       </label>
 
       <button type="submit">Отправить заявку</button>

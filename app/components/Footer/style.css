@@ -1,21 +1,24 @@
 #contacts {
-  display: grid;
-  grid-template-columns: 1fr;
   gap: 1rem;
   margin-top: 3rem;
-  padding: 2.5rem max(1rem, calc((100% - 1100px) / 2)) 2rem;
+  padding: 2.5rem max(1rem, calc((100% - 1400px) / 2));
   background-color: var(--brown);
-  color: var(--beige);
+  color: var(--light-beige);
 }
 
 #contacts h2 {
   margin: 0;
-  font-size: 1.5rem;
+  color: var(--beige);
+  font-size: 1.2rem;
   line-height: 1.2;
+  padding-bottom: 0.5rem;
 }
 
 #contacts p {
-  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0.3em 0;
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -33,65 +36,25 @@
 
 #contacts a {
   color: inherit;
-  text-decoration: underline;
-  text-decoration-color: rgba(242, 236, 228, 0.4);
-  text-underline-offset: 4px;
-  transition: text-decoration-color 0.2s ease;
+  font-size: 1rem;
 }
 
 #contacts a:hover {
-  text-decoration-color: var(--beige);
-}
-
-#contacts a:focus-visible {
-  outline: 3px solid var(--mint);
-  outline-offset: 3px;
-  border-radius: 4px;
+  color: var(--beige);
 }
 
 #contacts address a {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
 }
 
-#contacts address p:first-child a {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-#contacts > p:first-of-type {
+#contacts .privacy {
   color: var(--light-beige);
-}
-
-#contacts > p ~ p {
-  padding-top: 1rem;
-  border-top: 1px solid rgba(242, 236, 228, 0.15);
-  font-size: 0.85rem;
-  color: var(--light-beige);
-}
-
-@media (min-width: 768px) {
-  #contacts {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem 2rem;
-    padding-top: 3rem;
-    padding-bottom: 2rem;
-  }
-
-  #contacts h2 {
-    grid-column: 1 / -1;
-  }
-
-  #contacts > p:first-of-type {
-    justify-self: end;
-    align-self: end;
-    padding-top: 0.75rem;
-  }
-
-  #contacts > p:last-of-type {
-    text-align: right;
-  }
+  border-top: 1px solid var(--light-beige);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2em;
+  padding-top: 1em;
 }
 
 @media (prefers-reduced-motion: reduce) {

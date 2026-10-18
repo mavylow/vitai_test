@@ -15,6 +15,11 @@ body {
   margin: 0;
 }
 
+a {
+  appearance: none;
+  text-decoration: none;
+}
+
 p,
 h1,
 h2,
@@ -23,7 +28,7 @@ h3 {
 }
 
 section {
-  padding: 0 5rem;
+  padding: 0 10vw;
   margin-bottom: 4rem;
 }
 
@@ -119,6 +124,91 @@ iframe {
   align-items: center;
 }
 
+#delivery {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+#delivery h2 {
+  color: var(--brown);
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  #delivery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+#delivery > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem;
+  background-color: var(--beige);
+  color: var(--brown);
+}
+
+#delivery h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+#delivery p {
+  margin: 0;
+  font-weight: 500;
+}
+
+#delivery ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#delivery li {
+  position: relative;
+  padding-left: 1.25rem;
+  line-height: 1.4;
+}
+
+#delivery li::before {
+  content: "";
+  position: absolute;
+  top: 0.5em;
+  left: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--brown);
+}
+
+#delivery iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  margin-top: 0.25rem;
+  border: 0;
+  background-color: var(--light-beige);
+}
+
+#delivery iframe:focus-visible {
+  outline: 3px solid var(--mint);
+  outline-offset: 3px;
+}
+
+#order-title,
+#order p {
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
 @media (min-width: 600px) {
   .coffee-list {
     grid-template-columns: repeat(2, 1fr);
@@ -134,6 +224,10 @@ iframe {
 @media (min-width: 1100px) {
   .coffee-list {
     grid-template-columns: repeat(4, 1fr);
+  }
+  #order-title,
+  #order p {
+    align-self: flex-start;
   }
 }
 
@@ -151,5 +245,87 @@ iframe {
   #freshness {
     grid-template-columns: 1fr;
     align-items: stretch;
+  }
+}
+
+#subscription {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  background-color: var(--brown);
+  color: var(--beige);
+}
+
+#subscription h2,
+#subscription p {
+  margin: 0;
+}
+
+#subscription p:has(strong) {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+#subscription p:last-of-type {
+  max-width: 50ch;
+  color: var(--light-beige);
+  line-height: 1.5;
+}
+
+#subscription ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#subscription li {
+  display: flex;
+  gap: 0.75rem;
+}
+
+#subscription li::before {
+  content: "✓";
+  content: "✓" / "";
+  color: var(--light-beige);
+  font-weight: 700;
+}
+
+#subscription .button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 2rem;
+  border-radius: 2em;
+  background-color: var(--beige);
+  color: var(--brown);
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+#subscription .button:hover {
+  background-color: var(--light-beige);
+}
+
+#subscription .button:focus-visible {
+  outline: 3px solid var(--light-beige);
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  #subscription .button {
+    justify-self: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #subscription .button {
+    transition: none;
   }
 }
