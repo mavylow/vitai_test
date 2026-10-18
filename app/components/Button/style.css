@@ -1,0 +1,8 @@
+.button {
+  display: flex;
+  border-radius: 0.8em;
+  color: var(--brown);
+  background-color: var(--mint);
+  width: fit-content;
+  padding: 0.5em 1em;
+}

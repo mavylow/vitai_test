@@ -1,0 +1,25 @@
+#order {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#order-title,
+#order p {
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  #order {
+    padding: 0;
+  }
+}
+
+@media (min-width: 1100px) {
+  #order-title,
+  #order p {
+    align-self: flex-start;
+  }
+}
