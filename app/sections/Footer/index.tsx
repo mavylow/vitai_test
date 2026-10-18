@@ -53,7 +53,7 @@ function Footer() {
       </div>
       <p className="privacy">
         <a href="/privacy">Политика конфиденциальности </a>
-        <span>© {new Date().getFullYear()} Обжарка «Кварта»</span>
+        <span>© 2026 Обжарка «Кварта»</span>
       </p>
     </footer>
   );
