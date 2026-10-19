@@ -13,7 +13,13 @@ function CoffeeCard({
 }: Product) {
   return (
     <li className="coffee-card">
-      <Image src={image} width={250} height={250} alt={imageAlt} />
+      <Image
+        src={image}
+        width={250}
+        height={250}
+        alt={imageAlt}
+        loading="eager"
+      />
       <div className="coffee-name-price">
         <h3>{name}</h3>
         <p className="coffee-card-price">{price} BYN</p>

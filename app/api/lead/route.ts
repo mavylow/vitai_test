@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { leadSchema, formDataToLead } from "@utils/zod";
 import { Pool } from "@neondatabase/serverless";
+import { claimPhone, releasePhone } from "./dedupe";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 export async function POST(request: Request) {
+  let claimedPhone: string | null = null;
+
   try {
     let inputData;
     const contentType = request.headers.get("content-type") || "";
@@ -31,6 +34,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
+    if (!(await claimPhone(data.phone))) {
+      return NextResponse.json({ success: true, duplicate: true });
+    }
+    claimedPhone = data.phone;
+
     const query = `
       INSERT INTO leads (name, phone, request_type, products, receiving, address, comment, consent, website) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
@@ -43,7 +51,7 @@ export async function POST(request: Request) {
       data.requestType,
       data.products,
       data.receiving,
-      data.address || null,
+      data.receiving === "pickup" ? null : data.address || null,
       data.comment || null,
       data.consent,
       data.website || null,
@@ -54,6 +62,12 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, id: leadId }, { status: 201 });
   } catch (error) {
+    if (claimedPhone) {
+      await releasePhone(claimedPhone).catch((releaseError) =>
+        console.error("Failed to release phone:", releaseError)
+      );
+    }
+
     console.error("Failed to create lead:", error);
     return NextResponse.json(
       { error: "Не удалось сохранить заявку" },
