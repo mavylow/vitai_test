@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Кварта — сайт обжарки кофе (Минск)
 
-## Getting Started
+Одностраничный сайт для небольшой обжарки «Кварта» (клиент вымышленный, все факты даны в ТЗ). Главная цель сайта — **заявка на подписку или на разовый заказ**: менеджер перезванивает и оформляет. Корзина и онлайн-оплата не нужны.
 
-First, run the development server:
+- **Продукт:** свежеобжаренный кофе. Обжарка по четвергам, развоз по Минску по пятницам, зерно приезжает на 1–3 день после обжарки.
+- **Аудитория:** 25–45 лет, пьют кофе дома или в офисе, заходят с телефона из рекламы в Instagram и Яндексе.
+- **Тон:** тёплый и простой, без пафоса и «премиального» глянца.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Стек
+
+| Что         | Чем                                               |
+| ----------- | ------------------------------------------------- |
+| Фреймворк   | Next.js (App Router), React, TypeScript           |
+| Стили       | обычный CSS поверх переменные палитры в `:root`   |
+| Шрифт       | Roboto через `next/font` (латиница и кириллица)   |
+| Форма       | `react-hook-form` + `zod` (`@hookform/resolvers`) |
+| База данных | PostgreSQL в Neon (`@neondatabase/serverless`)    |
+
+Основные зависимости: `next`, `react`, `zod`, `react-hook-form`, `@hookform/resolvers`, `@neondatabase/serverless`.
+
+## Структура проекта
+
+--Так же решила организовать код в нужную и поняную струкруру, чтобы было проще и удобнее маштабировать или изменять исходный код, все компоненты изолированны
+
+```
+app/
+  layout.tsx              шрифт, <html lang="ru">, metadata
+  page.tsx                сборка страницы из секций
+  globals.css             палитра и общие стили
+  icon.svg, favicon.ico, apple-icon.png
+  components/             библиотека компонентов
+  sections/               все разделы сайта
+  api/
+    lead/route.ts         приём заявки, валидация, запись в БД
+    lead/dedupe.ts        защита от повторных заявок (Postgres)
+    coffee/route.ts       GET каталога
+  utils/
+    zod.ts                схема заявки (общая для клиента и сервера)
+    api.ts                getProducts(): запрос каталога из БД
+    const.ts, types.ts    константы и типы
+db/
+  lead.sql                таблица заказов
+  products.sql            таблица каталога и данные
+  lead_phone_claims.sql   таблица занятых номеров
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Этапы разработки
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Этап 1. Анализ ТЗ и структура сайта
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Цель:** превратить ТЗ в структуру, которую можно реализовать.
 
-## Learn More
+--ИИ сделал основное наполнение сайта, на основе которого я начала прикилывать дизайн в фигме чтобы было единым. Сделала пару первых экранов https://www.figma.com/design/6tesMlpTKtbL4CCwqLNXTJ/Untitled?node-id=63-2176&t=VfRed3oSZ9MDHnyT-0
+--Направляля ИИ в тех моментах где надо было написать много монотонного кода, но если обратить внимание стили которые он писал были скорее ориентиром и многое менялось, но утилитные функции в основном сохранились, потому что ии обработал все исключения лучше и быстрее
 
-To learn more about Next.js, take a look at the following resources:
+### Этап 2. Форма заявки: валидация
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Цель:** одни и те же правила на клиенте и на сервере.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Схема Zod (`utils/zod.ts`) используется и в форме, и в API. Правила, выведенные из ТЗ:
 
-## Deploy on Vercel
+| Поле                   | Правило                                                                                   |
+| ---------------------- | ----------------------------------------------------------------------------------------- |
+| Имя                    | 2–60 символов                                                                             |
+| Телефон                | белорусский номер (+375 или 80; коды 25, 29, 33, 44, 17), нормализуется в `+375XXXXXXXXX` |
+| Тип заявки             | подписка или разовый заказ                                                                |
+| Кофе                   | минимум одна позиция (или «Не знаю, помогите выбрать»)                                    |
+| Подписка               | это 2 пачки по 250 г: дрип-пакеты нельзя, сортов не больше двух                           |
+| Получение              | доставка или самовывоз; при доставке адрес обязателен                                     |
+| Согласие               | обязательно (персональные данные)                                                         |
+| Скрытое поле `website` | ловушка для ботов, должно быть пустым                                                     |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Форма работает на `react-hook-form` с `zodResolver`. Связанные поля перепроверяются через `deps` (смена типа заявки перепроверяет кофе, смена способа получения перепроверяет адрес). Ошибки сервера раскладываются по полям через `setError`. Форма отправляется и без JS (`action` и `method` сохранены).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Этап 3. API заявок и защита от дублей
+
+**Цель:** повторная отправка того же номера в течение 10 минут, в том числе двойной клик, не создаёт вторую заявку.
+
+Порядок в `POST /api/lead`:
+
+1. Разбор тела (JSON или обычная форма).
+2. Валидация схемой; при ошибке ответ 400 со списком ошибок по полям.
+3. Honeypot: если скрытое поле заполнено, боту отвечаем «успех», но ничего не сохраняем.
+4. `claimPhone(phone)`: номер занимается **до** записи в БД. Если он уже занят, ответ `{ success: true, duplicate: true }` без новой записи.
+5. `INSERT` в `leads`. При сбое номер освобождается через `releasePhone`, чтобы клиент мог повторить заявку.
+
+Защита от двойного клика на клиенте: флаг `useRef`, который ставится синхронно, и блокировка кнопки на время отправки.
+
+Хранилище номеров находится в Postgres (атомарный `INSERT … ON CONFLICT DO UPDATE … WHERE expires_at <= now()`), потому что в памяти процесса защита не работает на serverless и при нескольких инстансах.
+
+### Этап 4. База данных
+
+--После успешного деплоя на Vercel прикрутила базу данных NEON так как это бесплатный ресурс и предоставляет базы с основой PostgeSQL
+
+Три таблицы:
+
+- **`products`** (`db/products.sql`): каталог. Поля `id` (slug, совпадает со значением в форме), `name`, `description`, `volume`, `price NUMERIC(8,2)`, `image`, `image_alt`, `sort_order`, `is_active`, `created_at`. Скрипт идемпотентный: повторный запуск обновляет строки.
+- **`lead_phone_claims`** (`db/lead_phone_claims.sql`): занятые номера с временем истечения.
+- **`leads`**: заявки. Таблица создавалась отдельно; ожидаемая структура восстановлена по `INSERT` в `route.ts`, сверьте с реальной:
+
+### Этап 5. Каталог из БД и сборка
+
+--В процессе поняла что можно вынести продукты так же в БД чтобы больше было похоже на реальный сайт и в соответствие с этим попросила переделать Coffee section в серверный компонент (не через хуки, чтобы SEO был хорошим и все отрисовывалось на сервере)
+
+- Компонент `Coffee` стал **серверным**: читает каталог через `getProducts()` напрямую, без запроса к собственному API. И
